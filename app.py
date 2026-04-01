@@ -1,10 +1,15 @@
 import io
 import datetime
+import os
+import warnings
 import openpyxl
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 import streamlit as st
 import pandas as pd
+
+# Suprime avisos específicos
+warnings.filterwarnings("ignore", category=UserWarning, module="streamlit")
 
 # ──────────────────────────────────────────────────────────────
 #  CONFIGURAÇÃO DA PÁGINA
@@ -537,11 +542,12 @@ st.markdown("""
 st.markdown('<div class="section-card">', unsafe_allow_html=True)
 st.markdown('<div class="section-title">📁 01 — Upload da Planilha</div>', unsafe_allow_html=True)
 
+# CORREÇÃO: Adicionar um label válido
 uploaded = st.file_uploader(
-    label="",
+    label="Selecione o arquivo do Mapa de Atrasos",
     type=['xlsm', 'xlsx', 'xls'],
     help="Arraste o arquivo ou clique para selecionar. Aceita .xlsm e .xlsx até 50 MB.",
-    label_visibility="collapsed",
+    label_visibility="visible",
 )
 
 st.markdown('<div class="info-box">📂 Aceita arquivos <b>.xlsm</b> e <b>.xlsx</b> — até 50 MB. A planilha deve seguir o formato padrão do Mapa de Atrasos com abas de Núcleo.</div>', unsafe_allow_html=True)
@@ -645,9 +651,9 @@ if uploaded is not None:
             )
             rows_html += f"""
             <tr>
-               <td>{leg['Núcleo']}</td>
-               <td><code style="font-size:12px;color:#334155;background:#f1f5f9;padding:2px 6px;border-radius:4px">{leg['Descrição']}</code></td>
-               <td>{tipo_tag}</td>
+                <td>{leg['Núcleo']}</td>
+                <td><code style="font-size:12px;color:#334155;background:#f1f5f9;padding:2px 6px;border-radius:4px">{leg['Descrição']}</code></td>
+                <td>{tipo_tag}</td>
             </tr>"""
 
         st.markdown(f"""
